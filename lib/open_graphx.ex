@@ -70,8 +70,9 @@ defmodule OpenGraphx do
   end
   defp encode_node(_, graph), do: graph
 
-  defp prop_content({"meta", [{"property", arg}, {"content", content}], _}) do
-    {arg, content}
+  defp prop_content({"meta", args, _}) do
+    args = Enum.into(args, Map.new)
+    {args["property"], args["content"]}
   end
   defp prop_content(body) do
     IO.inspect "error: #{body}"
