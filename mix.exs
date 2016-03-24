@@ -1,13 +1,18 @@
 defmodule OpenGraphx.Mixfile do
   use Mix.Project
 
+  @description "Load Open Graph Protocol"
+
   def project do
     [app: :open_graphx,
      version: "0.0.1",
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps]
+     deps: deps,
+     description: @description,
+     package: package
+   ]
   end
 
   # Configuration for the OTP application
@@ -15,6 +20,13 @@ defmodule OpenGraphx.Mixfile do
   # Type "mix help compile.app" for more information
   def application do
     [applications: [:logger, :floki, :httpoison]]
+  end
+
+  defp package do
+    [maintainers: ["Takuma Yoshida"],
+      licenses: ["MIT"],
+      links: %{"GitHub" => "https://github.com/yoavlt/open_graphx"},
+    ]
   end
 
   # Dependencies can be Hex packages:
@@ -29,7 +41,9 @@ defmodule OpenGraphx.Mixfile do
   defp deps do
     [
       {:floki, "~> 0.8"},
-      {:httpoison, "~> 0.8.0"}
+      {:httpoison, "~> 0.8.0"},
+      {:ex_doc, "~> 0.8.0", only: :dev},
+      {:earmark, ">= 0.0.0", only: :dev}
     ]
   end
 end
