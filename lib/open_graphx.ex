@@ -12,16 +12,15 @@ defmodule OpenGraphx do
        title: "バスケットボール動画 〜ドリブル＆ハンドリング〜 - NAVER まとめ",
        type: "article", url: "http://matome.naver.jp/odai/2140474323219875301"}
   """
-  def load(url) do
-    with {:ok, response} <- request(url),
+  def load(url, opts \\ []) do
+    with {:ok, response} <- request(url, opts),
          {:ok, parsed}   <- parse(response), do: parsed
   end
 
-  defp request(url) do
+  defp request(url, opts \\ []) do
     HTTPoison.start
-    url
-    |> HTTPoison.get!
-    |> process_response
+    with {:ok, response} <- HTTPoison.get(url, [], opts),
+         do: process_response(response)
   end
 
   defp process_response(%HTTPoison.Response{body: body, status_code: status_code}) when status_code in 200..299 do
